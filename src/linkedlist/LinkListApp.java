@@ -25,7 +25,7 @@ class LinkList {
     }
     public void insertFirst(int id, double dd) {
         Link newLink = new Link(id, dd);
-        newLink.next = first.next;
+        newLink.next = first;
         first = newLink;
     }
     public Link deleteFirst() {
@@ -46,7 +46,19 @@ class LinkList {
 }
 public class LinkListApp {
     public static void main(String[] args) {
-        System.out.println();
+        LinkList theList = new LinkList();
+        theList.insertFirst(22, 2.99);
+        theList.insertFirst(44, 4.99);
+        theList.insertFirst(66, 6.99);
+        theList.insertFirst(88, 8.99);
+        theList.displayList();
 
+        while (!theList.isEmpty()) {
+            Link delLink = theList.deleteFirst();
+            System.out.print("Deleted: ");
+            delLink.displayLink();
+            System.out.println();
+        }
+        theList.displayList();
     }
 }
