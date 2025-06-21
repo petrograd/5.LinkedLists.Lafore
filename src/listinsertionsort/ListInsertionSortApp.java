@@ -69,7 +69,5 @@ public class ListInsertionSortApp {
             System.out.print(linkArray[i].dData + " ");
         }
         System.out.println();
-
     }
-
 }
