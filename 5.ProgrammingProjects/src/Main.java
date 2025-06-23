@@ -58,10 +58,8 @@ class List {
         System.out.println();
     }
 }
-
-public class TaskSolver5 {
-
-    private void solver1() {
+class Task1 {
+    public void solve() {
         List thePQ = new List();
 
         thePQ.insert(20);
@@ -79,9 +77,17 @@ public class TaskSolver5 {
         }
         System.out.println();
         thePQ.displayList();
+    }
+}
+class Task2 {
+    public void solve() {
 
     }
+}
+
+public class Main {
+
     public static void main(String[] args) {
-        new TaskSolver5().solver1();
+        new Task2().solve();
     }
 }
