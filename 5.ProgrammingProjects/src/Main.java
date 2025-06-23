@@ -1,12 +1,12 @@
 class Link {
     public long dData;
     public Link next;
-
+    public Link prev;
     public Link(long dd) {
         dData = dd;
         next = null;
     }
-    public void display() {
+    public void displayLink() {
         System.out.print(dData + " ");
     }
 }
@@ -52,11 +52,126 @@ class List {
     public void displayList() {
         Link current = first;
         while (current != null) {
-            current.display();
+            current.displayLink();
             current = current.next;
         }
         System.out.println();
     }
+}
+class DoublyLinkedList {
+    private Link first;
+    private Link last;
+
+    public DoublyLinkedList() {
+        first = null;
+        last = null;
+    }
+    public boolean isEmpty() {
+        return first == null;
+    }
+    public void insertFirst(long dd) {
+        Link newLink = new Link(dd);
+        if (isEmpty()) {
+            last = newLink;
+        } else {
+            first.prev = newLink;
+        }
+        newLink.prev = null;
+        newLink.next = first;
+        first = newLink;
+    }
+    public void insertLast(long dd) {
+        Link newLink = new Link(dd);
+        if (isEmpty()) {
+            first = newLink;
+        } else {
+            last.next = newLink;
+        }
+        newLink.next = null;
+        newLink.prev = last;
+        last = newLink;
+    }
+    public boolean insertAfter(long key, long dd) {
+        if (isEmpty())
+            return false;
+        Link current = first;
+        Link newLink = new Link(dd);
+        while (current.dData != key) {
+            current = current.next;
+            if (current == null)
+                return false;
+        }
+        newLink.prev = current;
+        newLink.next = current.next;
+        if (current == last) {
+            last = newLink;
+        } else {
+            current.next.prev = newLink;
+        }
+        current.next = newLink;
+        return true;
+
+    }
+    public Link deleteKey(long key) {
+        if (isEmpty()) return null;
+        Link current = first;
+        while (current.dData != key) {
+            current = current.next;
+            if (current == null) // end of list
+                return null;
+        }
+        if (current == first) {
+            first = current.next;
+        } else {
+            current.prev.next = current.next;
+        }
+        if (current == last) {
+            last = current.prev;
+        } else {
+            current.next.prev = current.prev;
+        }
+        return current;
+
+    }
+    public Link deleteFirst() {
+        Link temp = first;
+        if (first.next == null) {
+            last = null;
+        } else {
+            first.next.prev = null;
+        }
+        first = first.next;
+        return temp;
+    }
+    public Link deleteLast() {
+        Link temp = last;
+        if (last.prev == null) {
+            first = null;
+        } else {
+            last.prev.next = null;
+        }
+        last = last.prev;
+        return temp;
+    }
+    public void displayForward() {
+        System.out.print("List (first --> last): ");
+        Link current = first;
+        while (current != null) {
+            current.displayLink();
+            current = current.next;
+        }
+        System.out.println("");
+    }
+    public void displayBackward() {
+        System.out.print("List (last --> first): ");
+        Link current = last;
+        while (current != null) {
+            current.displayLink();
+            current = current.prev;
+        }
+        System.out.println("");
+    }
+
 }
 class Task1 {
     public void solve() {
@@ -73,14 +188,62 @@ class Task1 {
 
         while (!thePQ.isEmpty()) {
             Link temp = thePQ.remove();
-            temp.display();
+            temp.displayLink();
         }
         System.out.println();
         thePQ.displayList();
     }
 }
+
+class Deque {
+    private DoublyLinkedList theList;
+
+    public Deque() {
+        theList = new DoublyLinkedList();
+    }
+    public void insertLeft(long dd) {
+        theList.insertFirst(dd);
+    }
+    public void insertRight(long dd) {
+        theList.insertLast(dd);
+    }
+    public long removeLeft() {
+        long val = theList.deleteFirst().dData;
+        return val;
+    }
+    public long removeRight() {
+        long val = theList.deleteLast().dData;
+        return val;
+    }
+    public void displayDeck() {
+        theList.displayForward();
+    }
+    public boolean isEmpty() {
+        return theList.isEmpty();
+    }
+
+}
+//Implement a deque based on a doubly linked list
 class Task2 {
     public void solve() {
+        Deque theDeque = new Deque();
+        theDeque.insertLeft(60);
+        theDeque.insertLeft(40);
+        theDeque.insertLeft(20);
+        theDeque.insertRight(50);
+        theDeque.insertRight(30);
+        theDeque.insertRight(10);
+
+        theDeque.displayDeck();
+
+        theDeque.removeRight();
+        theDeque.removeLeft();
+        theDeque.displayDeck();
+
+        while (!theDeque.isEmpty()) {
+            theDeque.removeRight();
+        }
+        theDeque.displayDeck();
 
     }
 }
